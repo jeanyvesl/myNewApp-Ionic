@@ -12,7 +12,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 const cloudSettings: CloudSettings = {
   'core': {
-    'app_id': 'APP_ID'
+    'app_id': '5bfc5001'
   }
 };
 
