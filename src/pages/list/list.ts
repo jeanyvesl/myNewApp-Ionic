@@ -1,32 +1,42 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { ModalController, NavController, NavParams } from 'ionic-angular';
 import { ItemDetailsPage } from '../item-details/item-details';
+import { AddItemPage } from '../add-item/add-item';
+import { DataProvider } from '../../providers/data/data';
 
 @Component({
   selector: 'page-list',
   templateUrl: 'list.html'
 })
 export class ListPage {
-  selectedItem: any;
-  icons: string[];
-  items: Array<{title: string, note: string, icon: string}>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  public items = [];
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public dataService: DataProvider) {
+
+    this.dataService.getData().then((todos) => {
+
+      if(todos){
+        this.items = JSON.parse(todos);
+      }
+
+    });
+
     // If we navigated to this page, we will have an item available as a nav param
-    this.selectedItem = navParams.get('item');
-
-    // Let's populate this page with some filler content for funzies
-    this.icons = ['flask', 'wifi', 'beer', 'football', 'basketball', 'paper-plane',
-    'american-football', 'boat', 'bluetooth', 'build'];
-
-    this.items = [];
-    for (let i = 1; i < 11; i++) {
-      this.items.push({
-        title: 'Item ' + i,
-        note: 'This is item #' + i,
-        icon: this.icons[Math.floor(Math.random() * this.icons.length)]
-      });
-    }
+    // this.selectedItem = navParams.get('item');
+    //
+    // // Let's populate this page with some filler content for funzies
+    // this.icons = ['flask', 'wifi', 'beer', 'football', 'basketball', 'paper-plane',
+    // 'american-football', 'boat', 'bluetooth', 'build'];
+    //
+    // this.items = [];
+    // for (let i = 1; i < 11; i++) {
+    //   this.items.push({
+    //     title: 'Item ' + i,
+    //     note: 'This is item #' + i,
+    //     icon: this.icons[Math.floor(Math.random() * this.icons.length)]
+    //   });
+    // }
   }
 
   itemTapped(event, item) {
@@ -37,6 +47,23 @@ export class ListPage {
   }
 
   addItem(){
-    
+
+    let addModal = this.modalCtrl.create(AddItemPage);
+
+    addModal.onDidDismiss((item) => {
+
+          if(item){
+            this.saveItem(item);
+          }
+
+    });
+
+    addModal.present();
+
+  }
+
+  saveItem(item){
+    this.items.push(item);
+    this.dataService.save(this.items);
   }
 }

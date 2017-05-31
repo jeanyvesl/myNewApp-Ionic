@@ -11,10 +11,10 @@
   <ion-card>
     <ion-card-header>
       <ion-item>
-        <ion-icon [name]="selectedItem.icon" item-left></ion-icon>
-        {{selectedItem.title}}
+        <ion-icon [name]="icon" item-left></ion-icon>
+        {{title}}
       </ion-item>
     </ion-card-header>
-    <ion-card-content>You navigated here from <b>{{selectedItem.title}}</b></ion-card-content>
+    <ion-card-content>{{note}}</ion-card-content>
   </ion-card>
 </ion-content>
