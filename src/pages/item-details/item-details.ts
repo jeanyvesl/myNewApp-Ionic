@@ -16,7 +16,4 @@ export class ItemDetailsPage {
     this.selectedItem = navParams.get('item');
   }
 
-  itemTapped(event, item) {
-    this.navCtrl.pop(ListPage);
-  }
 }
